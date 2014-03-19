@@ -1,0 +1,22 @@
+{
+  "name": "backbone-grid",
+  "version": "0.1.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "jquery": "~1.9.x",
+    "bootstrap": "3.x.x",
+    "requirejs": "~2.1.6",
+    "backbone": "~1.0.0",
+    "underscore": "~1.4.4"
+  },
+  "devDependencies": {
+    "mocha": "~1.9.0",
+    "chai": "~1.6.0",
+    "sinon": "~1.7.1",
+    "sinon-chai": "~2.4.0"
+  }
+}

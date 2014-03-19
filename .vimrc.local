@@ -1,0 +1,1 @@
+let NERDTreeIgnore=['\~$', '\.js$', '\.map', 'dist$', 'node_modules$', 'compiledPublic']
