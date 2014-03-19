@@ -8,21 +8,21 @@ module.exports = (grunt) ->
         src: ['**/*.coffee']
         dest: 'dist'
         ext: '.js'
-        options:
-          bare:true
       test:
         expand:true
         cwd: 'test'
         src: ['**/*.coffee']
         dest: 'test'
         ext: '.js'
-        options:
-          bare:true
     mochacov:
       options:
         require: ['test/support/runnerSetup.js']
         reporter: 'spec'
       client: ['test/**/*.js']
+    uglify:
+      js:
+        files:
+          'dist/backbone-grid.min.js': ['dist/backbone-grid.js']
     watch:
       compileAndTest:
         files: [ 'test/**/*.coffee', 'src/**/*.coffee' ]
@@ -41,6 +41,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-qunit'
   grunt.loadNpmTasks 'grunt-mocha-cov'
   grunt.loadNpmTasks 'grunt-contrib-watch'
+  grunt.loadNpmTasks 'grunt-contrib-uglify'
 
   _ = grunt.util._
   filterFiles = (files, dir) ->
@@ -62,7 +63,7 @@ module.exports = (grunt) ->
     changedFiles[filepath] = action
     onChange()
 
-  grunt.registerTask 'compile', ['coffee']
+  grunt.registerTask 'compile', ['coffee', 'uglify']
   grunt.registerTask 'test', ['coffee:grid', 'coffee:test', 'mochacov:client']
   grunt.registerTask 'compileAndTest', ->
     tasks = []
