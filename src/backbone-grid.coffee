@@ -1,6 +1,8 @@
 throw new Error "Backbone.js is required" if not window.Backbone
 noConflict = Backbone.Grid || {}
 Grid = Backbone.Grid = Backbone.View.extend
+  events:
+    "click .grid-cell" : "rowClick"
   initialize: (options) ->
     options ||= {}
     throw new Error("Grid.initialize -> invalid arguments") unless options.columns and options.collection
@@ -13,6 +15,7 @@ Grid = Backbone.Grid = Backbone.View.extend
     @collection = options.collection
     @pageable = options.pageable
     @selectRow = options.selectRow
+    @rowSelected = options.rowSelected
   loadTemplates: ->
     @templateTable = '<table id="grid-container" class="table table-striped table-bordered"><thead></thead><tbody></tbody><tfoot></tfoot></table>'
     @templateHeader = _.template '<tr><%var cell = 0; _.map(columns, function(item) {%><th class="grid-header-<%=cell%>"><%=item.title%></th><% cell++;});%></tr>'
@@ -36,15 +39,22 @@ Grid = Backbone.Grid = Backbone.View.extend
     tbody.push @renderCellByType model: model, column: column for column in @columns
     tbody.push '</tr>'
   renderCellByType: (cellData) ->
+    console.log cellData.column
     cellData.column.type ||= 'string'
     type = cellData.column.type
     cellTemplate = switch
       when type = 'string' then @templateStringCell cellData
+      when type = 'button' then @templateButtonCell cellData
     cellTemplate
   formatCells: ->
     if @selectRow
       @$("#grid-container").addClass("table-hover")
       @$("#grid-container tbody tr").css("cursor", "pointer")
+  rowClick: (e) ->
+    if(@selectRow)
+      e.preventDefault()
+      model = @collection.get($(e.currentTarget).data("id"))
+      @rowSelected model, e
 
 Grid.version = "0.1.1"
 Grid.noConflict = noConflict

@@ -8,12 +8,16 @@ module.exports = (grunt) ->
         src: ['**/*.coffee']
         dest: 'dist'
         ext: '.js'
+        options:
+          bare: true
       test:
         expand:true
         cwd: 'test'
         src: ['**/*.coffee']
         dest: 'test'
         ext: '.js'
+        options:
+          bare: true
     mochacov:
       options:
         require: ['test/support/runnerSetup.js']
